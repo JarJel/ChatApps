@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('google_id');
-            $table->string('displa_name');
+            $table->string('display_name');
             $table->string('avatar_url');
             $table->text('bio');
             $table->enum('status', ['online', 'away', 'dnd', 'invisible'])->default('online');

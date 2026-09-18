@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('server_members', function (Blueprint $table) {
+        Schema::create('conversation_members', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('server_id')->nullable()->constrained('servers')->cascadeOnDelete();
-            $table->foreignUuid('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('nickname');
+            $table->foreignUuid('conversation_id')->constrained('conversations')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->enum('role', ['owner', 'moderator', 'member'])->default('member');
+            $table->timestamp('last_read_at')->nullable();
+            $table->timestamp('joined_at')->useCurrent();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('server_members');
+        Schema::dropIfExists('conversation_members');
     }
 };

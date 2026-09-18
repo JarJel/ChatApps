@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('server', function (Blueprint $table) {
+        Schema::create('user_mentions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('icon_url');
-            $table->foreignUuid('owner_id');
+            $table->foreignUuid('message_id')->constrained('messages')->cascadeOnDelete();
+            $table->foreignUuid('mentioned_user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('server');
+        Schema::dropIfExists('user_mentions');
     }
 };

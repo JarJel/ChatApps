@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('server_members', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['direct', 'group', 'channel'])->default('direct');
+            $table->string('name')->nullable();
+            $table->string('icon_url')->nullable();
             $table->foreignUuid('server_id')->nullable()->constrained('servers')->cascadeOnDelete();
-            $table->foreignUuid('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('nickname');
-            $table->enum('role', ['owner', 'moderator', 'member'])->default('member');
+            $table->foreignUuid('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('server_members');
+        Schema::dropIfExists('conversations');
     }
 };
