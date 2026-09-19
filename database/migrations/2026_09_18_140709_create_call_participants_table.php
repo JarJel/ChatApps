@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('call_participants', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('call_session_id')->constrained('call_sessions')->cascadeOnDelete();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamp('joined_at')->useCurrent();

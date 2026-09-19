@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('server_members', function (Blueprint $table) {
-            $table->id();
-            $table->foreignUuid('server_id')->nullable()->constrained('servers')->cascadeOnDelete();
-            $table->foreignUuid('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('nickname');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('server_id')->constrained('servers')->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('nickname')->nullable();
             $table->enum('role', ['owner', 'moderator', 'member'])->default('member');
+            $table->timestamp('joined_at')->useCurrent();
             $table->timestamps();
         });
     }

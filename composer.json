@@ -10,12 +10,13 @@
         "laravel/framework": "^13.17",
         "laravel/reverb": "^1.11",
         "laravel/sanctum": "^4.0",
+        "laravel/scout": "^11.7",
         "laravel/tinker": "^3.0",
         "pusher/pusher-php-server": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/boost": "*",
+        "laravel/boost": "^2.9",
         "laravel/pail": "^1.2.5",
         "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",

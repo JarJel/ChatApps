@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_mentions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('message_id')->constrained('messages')->cascadeOnDelete();
             $table->foreignUuid('mentioned_user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();

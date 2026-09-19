@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('servers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('description');
-            $table->string('icon_url');
-            $table->foreignUuid('owner_id');
+            $table->string('description')->nullable();
+            $table->string('icon_url')->nullable();
+            $table->foreignUuid('owner_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

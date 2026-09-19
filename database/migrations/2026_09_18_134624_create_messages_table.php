@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('conversation_id')->constrained('conversations')->cascadeOnDelete();
             $table->foreignUuid('sender_id')->constrained('users')->cascadeOnDelete();
             $table->enum('type', ['text', 'image', 'file', 'voice', 'code_snippet', 'system'])->default('text');

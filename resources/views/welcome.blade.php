@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chat-Apps | Real-time Chat</title>
+    <title>Connect.</title>
 
     <!-- Directive wajib Vite untuk React HMR -->
     @viteReactRefresh

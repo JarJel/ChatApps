@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('call_sessions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('conversation_id')->constrained('conversations')->cascadeOnDelete();
             $table->foreignUuid('started_by')->constrained('users')->cascadeOnDelete();
             $table->enum('call_type', ['voice', 'video'])->default('voice');
+            $table->enum('status', ['ongoing', 'ended'])->default('ongoing');
             $table->string('sfu_room_name');
             $table->timestamp('started_at')->useCurrent();
             $table->timestamp('ended_at')->nullable();
