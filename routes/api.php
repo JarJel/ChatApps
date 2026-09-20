@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 // Public Auth Routes
 Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:login');
 
 // Protected Routes (Harus Login)
 Route::middleware('auth:sanctum')->group(function () {
