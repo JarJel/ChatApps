@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
@@ -58,13 +59,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function toSearchableArray(): array {
+    public function toSearchableArray(): array
+    {
         return [
-            'id'                => $this->id,
-            'name'              => $this->name,
-            'username'          => $this->username,
-            'display_name'      => $this->display_name,
-            'email'             => $this->email,
+            'id' => $this->id,
+            'name' => $this->name,
+            'username' => $this->username,
+            'display_name' => $this->display_name,
+            'email' => $this->email,
         ];
     }
 

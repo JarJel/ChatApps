@@ -22,11 +22,12 @@ class UserService
     {
         // TODO: Update profil user (name, display_name, bio, phone, avatar_url)
         $filteredDAta = array_filter([
-            'name'              => $data['name'] ?? null,
-            'display_name'      => $data['display_name'] ?? null,
-            'bio'               => $data['bio'] ?? null,
-            'avatar_url'        => $data['avatar_url'] ?? null,
-            'phone'             => $data['phone'] ?? null,
+            'name' => $data['name'] ?? null,
+            'username' => isset($data['username']) ? strtolower($data['username']) : null,
+            'display_name' => $data['display_name'] ?? null,
+            'bio' => $data['bio'] ?? null,
+            'avatar_url' => $data['avatar_url'] ?? null,
+            'phone' => $data['phone'] ?? null,
         ]);
 
         $user->update($filteredDAta);
@@ -38,9 +39,10 @@ class UserService
     {
         // TODO: Update status online/offline dan custom status
         $user->update([
-            'status'            => $status,
-            'custom_status'     => $customStatus,
+            'status' => $status,
+            'custom_status' => $customStatus,
         ]);
+
         return $user->fresh();
     }
 

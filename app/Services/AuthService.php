@@ -16,9 +16,11 @@ class AuthService
         $user = User::create([
             'name' => $data['name'],
             'username' => $username,
+            'display_name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
+            'status' => 'online',
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

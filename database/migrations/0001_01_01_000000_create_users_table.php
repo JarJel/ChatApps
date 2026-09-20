@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('username')->unique();
+            $table->string('username')->nullable()->unique();
             $table->string('email')->unique();
             $table->string('phone');
             $table->string('google_id')->nullable()->unique();
-            $table->string('display_name');
+            $table->string('display_name')->nullable();
             $table->string('avatar_url')->nullable();
             $table->text('bio')->nullable();
             $table->enum('status', ['online', 'away', 'dnd', 'invisible'])->default('online');
-            $table->string('custom_status');
+            $table->string('custom_status')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('remember_token');
+            $table->rememberToken();
             $table->timestamps();
         });
 
