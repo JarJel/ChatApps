@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserService
 {
@@ -18,19 +19,29 @@ class UserService
         return User::where('username', $username)->first();
     }
 
+    public function findByIdOrUsername(string $identifier): ?User
+    {
+        return User::where('id', $identifier)
+            ->orWhere('username', strtolower($identifier))
+            ->first();
+    }
+
     public function updateProfile(User $user, array $data): User
     {
         // TODO: Update profil user (name, display_name, bio, phone, avatar_url)
-        $filteredDAta = array_filter([
+        $payload = [
             'name' => $data['name'] ?? null,
             'username' => isset($data['username']) ? strtolower($data['username']) : null,
             'display_name' => $data['display_name'] ?? null,
             'bio' => $data['bio'] ?? null,
             'avatar_url' => $data['avatar_url'] ?? null,
             'phone' => $data['phone'] ?? null,
-        ]);
+        ];
 
-        $user->update($filteredDAta);
+        $filteredData = array_filter($payload, fn ($value) => $value !== null);
+        if (! empty($filteredData)) {
+            $user->update($filteredData);
+        }
 
         return $user->fresh();
     }
@@ -46,9 +57,11 @@ class UserService
         return $user->fresh();
     }
 
-    public function search(string $query, int $limit = 20): mixed
+    public function search(string $query, int $limit = 20): LengthAwarePaginator
     {
-        // TODO: Search user berdasarkan username, nama, atau email
-        return User::search($query)->paginate($limit);
+        return User::where('username', 'LIKE', "%{$query}%")
+            ->orWhere('name', 'LIKE', "%{$query}%")
+            ->orWhere('display_name', 'LIKE', "%{$query}%")
+            ->paginate($limit);
     }
 }

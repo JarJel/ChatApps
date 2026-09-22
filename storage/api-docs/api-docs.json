@@ -154,6 +154,293 @@
                 }
             }
         },
+        "/api/servers": {
+            "get": {
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Daftar Server yang Diikuti & Dimiliki User",
+                "operationId": "e546310e6f6805e22f8fe3b88a74ded0",
+                "responses": {
+                    "200": {
+                        "description": "Daftar server berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "servers": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Buat Server Baru",
+                "operationId": "203cf2922c7414cfb2416b6a9a620d47",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Komunitas Developer Laravel"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Ruang diskusi backend developer dan gamer"
+                                    },
+                                    "icon_url": {
+                                        "type": "string",
+                                        "example": "https://example.com/icon.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Server berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server berhasil dibuat."
+                                        },
+                                        "server": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi data gagal"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servers/{id}": {
+            "get": {
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Detail Server beserta Daftar Channel dan Anggota",
+                "operationId": "7b37b119418b683ad8ef51725fe3a111",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Server ID (UUID)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail server berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "server": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Bukan anggota server ini"
+                    },
+                    "404": {
+                        "description": "Server tidak ditemukan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Update Informasi Server (Owner & Admin)",
+                "operationId": "1e0fdcc9441e59fdd54f291480b2c54f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Server ID (UUID)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Komunitas Laravel & React"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Server resmi komunitas pengembang"
+                                    },
+                                    "icon_url": {
+                                        "type": "string",
+                                        "example": "https://example.com/new-icon.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Server berhasil diperbarui",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server berhasil diperbarui."
+                                        },
+                                        "server": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Tidak memiliki izin (Bukan Owner / Admin)"
+                    },
+                    "404": {
+                        "description": "Server tidak ditemukan"
+                    },
+                    "422": {
+                        "description": "Validasi data gagal"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Servers"
+                ],
+                "summary": "Hapus Server (Hanya Pemilik Server)",
+                "operationId": "831eff57f53262fbc951d20e7572a2a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Server ID (UUID)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Server berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server berhasil dihapus."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Tidak memiliki izin (Bukan pemilik server)"
+                    },
+                    "404": {
+                        "description": "Server tidak ditemukan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/friendships": {
             "get": {
                 "tags": [
@@ -448,6 +735,239 @@
                     }
                 ]
             }
+        },
+        "/api/users/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Ambil Profil User yang Sedang Login",
+                "operationId": "bbce5a07f65000c13d49ac97d9cd845f",
+                "responses": {
+                    "200": {
+                        "description": "Informasi profil user yang sedang login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated / Token tidak valid"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Detail Profil User Berdasarkan ID atau Username",
+                "operationId": "3efafdaa7126938df2b62bd706bba458",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User UUID atau @username",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profil user ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User tidak ditemukan"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/profile": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update Profil & Status Pengguna",
+                "operationId": "26397611ed0225d567e1d885ce3a5fc6",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Fajar Muhammad"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "fajar_dev"
+                                    },
+                                    "display_name": {
+                                        "type": "string",
+                                        "example": "Fajar"
+                                    },
+                                    "bio": {
+                                        "type": "string",
+                                        "example": "Software Engineer & Gamer"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+628123456789"
+                                    },
+                                    "avatar_url": {
+                                        "type": "string",
+                                        "example": "https://example.com/avatar.png"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "example": "online",
+                                        "enum": [
+                                            "online",
+                                            "offline",
+                                            "away",
+                                            "busy",
+                                            "dnd"
+                                        ]
+                                    },
+                                    "custom_status": {
+                                        "type": "string",
+                                        "example": "Coding Laravel 🚀"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profil berhasil diperbarui",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profil berhasil diperbarui."
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validasi data gagal"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/search": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Cari Pengguna Berdasarkan Nama atau Username",
+                "operationId": "870e0c5e700bcc087b5ca3cfe0049939",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Kata kunci pencarian (nama, display_name, atau username)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "fajar"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Jumlah data per halaman (default: 20)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Daftar user ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "users": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Parameter pencarian tidak valid / kosong"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -466,8 +986,16 @@
             "description": "Authentication"
         },
         {
+            "name": "Servers",
+            "description": "Servers"
+        },
+        {
             "name": "Friendships",
             "description": "Friendships"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

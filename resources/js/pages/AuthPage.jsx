@@ -4,7 +4,7 @@ import HeroHeadline from '../components/HeroHeadline';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
-export default function AuthPage() {
+export default function AuthPage({ onLoginSuccess }) {
     const [activeTab, setActiveTab] = useState('login'); // 'login' atau 'register'
 
     return (
@@ -38,7 +38,9 @@ export default function AuthPage() {
                             <LoginForm 
                                 onSwitchToRegister={() => setActiveTab('register')}
                                 onSuccess={(data) => {
-                                    console.log('Login sukses:', data);
+                                    if (onLoginSuccess) {
+                                        onLoginSuccess(data.user, data.token);
+                                    }
                                 }}
                             />
                         ) : (
